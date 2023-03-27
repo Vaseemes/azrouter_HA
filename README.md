@@ -1,9 +1,9 @@
 # AZrouter_HA
+
+## **Requirements**<br>
+Mozzila Firefox installed<br>
+Python installed<br>
+Samba Share addon in Home Assistant running<br>
+
+## **Goal/Scope**<br>
 Reading values from AZrouter SMART
-
-<b>Requirements</b>
-Mozzila Firefox installed
-Python installed
-Samba Share addon in Home Assistant running
-
-Goal/Scope
