@@ -60,7 +60,7 @@ You can choose whatever path you want, it will just create .txt file there (geck
 
 Do the same for the "azrouter_bojler.pyw" file.<br>
 
-### Now we need add these values to HA<br>
+### Now we need add to these values to HA<br>
 open configuration.yaml and add these:<br>
 
 ```
