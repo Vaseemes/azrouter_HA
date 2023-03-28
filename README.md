@@ -120,6 +120,9 @@ The second sensor gives us value of the power export.<br>
 If you want to use these sensors in the Energy card or elsewhere to measure Energy in Wh, kWh you need to create helper Riemann sum integral (https://www.home-assistant.io/integrations/integration/) Setup is pretty straightforward, so I won't go into the detail.<br>
 
 
+## Examples/Use case<br>
+Power Flow Card Plus<br>
+![My Remote Image](https://1drv.ms/i/s!AtL1M_qKJDp-hONFdOjFCzRShvBcfQ?e=BFzKfj)
 
 
 
