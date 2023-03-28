@@ -1,7 +1,7 @@
 # AZrouter_HA<br>
 Two very basic Python scripts that are reading values from AZrouter device and are adding them to HomeAssistant.<br>
 <br>
-**!!!THESE SCRIPTS ARE NOT RUNNING IN THE HOMEASSISTANT. YOU CAN START THEM UP ON SEPARATE WINDOWS MACHINE/SERVER AND LEAVE THEM RUNNING!!!**<br>
+**!!! THESE SCRIPTS ARE NOT RUNNING IN THE HOMEASSISTANT. YOU CAN START THEM UP ON SEPARATE WINDOWS MACHINE/SERVER AND LEAVE THEM RUNNING !!!**<br>
 
 ## **Requirements**<br>
 Mozilla Firefox installed<br>
