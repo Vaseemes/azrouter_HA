@@ -40,8 +40,8 @@ Download and open the .pyw files from this repository. Open the "combined azrout
 <br>
 Here you need to change these:<br>
 ```
-username = "YOUR-USERNAME"<br>
-password = "YOUR-PASSWORD"<br>
+username = "YOUR-USERNAME"
+password = "YOUR-PASSWORD"
 ```
 Replace "YOUR-USERNAME" and "YOUR-PASSWORD" with the azrouter.local login details.<br>
 In this file you also need to change IP of your HomeAssistant here:<br>
