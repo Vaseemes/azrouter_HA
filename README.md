@@ -121,9 +121,21 @@ If you want to use these sensors in the Energy card or elsewhere to measure Ener
 
 
 ## Examples/Use case<br>
-Power Flow Card Plus<br>
-![My Remote Image](https://1drv.ms/i/s!AtL1M_qKJDp-hONFdOjFCzRShvBcfQ?e=BFzKfj)
+### Power Flow Card Plus<br> 
+https://github.com/flixlix/power-flow-card-plus
+<br> 
 
+<br>
+
+![My Remote Image](https://github.com/Vaseemes/azrouter_HA/blob/main/power_flow_card_plus.jpg?raw=true)
+<br>
+
+
+### Energy Card<br>
+
+<br>
+
+![My Remote Image](https://github.com/Vaseemes/azrouter_HA/blob/main/energy_card.jpg?raw=true)
 
 
 
