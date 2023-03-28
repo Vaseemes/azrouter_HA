@@ -1,7 +1,10 @@
-# AZrouter_HA
+# AZrouter_HA<br>
+Two very basic Python scripts that are reading values from AZrouter device and are adding them to HomeAssistant.<br>
+<br>
+**!!!THESE SCRIPTS ARE NOT RUNNING IN THE HOMEASSISTANT. YOU CAN START THEM UP ON SEPARATE WINDOWS MACHINE/SERVER AND LEAVE THEM RUNNING!!!**<br>
 
 ## **Requirements**<br>
-Mozzila Firefox installed<br>
+Mozilla Firefox installed<br>
 Python installed<br>
 Python Selenium package installed<br>
 Samba Share addon in Home Assistant running<br>
@@ -13,5 +16,111 @@ Reading values from AZrouter SMART<br>
 - Boiler temperature<br>
 
 ## Installation
+
+First you need to install Mozilla Firefox browser. You can use other browsers as well, but then you have to change the properties for Selenium.<br>
+Install latest Python<br>
+After installing Python, open command line and write:
+```
+py -m pip install selenium
+```
+<br>
+You can then close the command line.<br>
+Next in HA install Samba Share addon and set it up (username, password)<br>
+
+### Now we need to add files to HA<br>
+You can put these files in whatever folder in the HA installation you want, but if you do, you need to define that path in the .pyw files.<br>
+Access your HA via Windows (Samba share) and in folder "/config/www/" create three empty files:<br>
+azrouter.txt<br>
+azrouter_bojler_nahrivani.txt<br>
+azrouter_bojler.txt<br>
+<br>
+Open the "combined azrouter.pyw" in notepad or IDE of your choice.
+<br>
+Here you need to change these:<br>
+```
+username = "YOUR-USERNAME"<br>
+password = "YOUR-PASSWORD"<br>
+```
+Replace "YOUR-USERNAME" and "YOUR-PASSWORD" with the azrouter.local login details.<br>
+In this file you also need to change IP of your HomeAssistant here:<br>
+
+```
+output_file_path = "//YOUR-HA-IP_ADDRESS/config/www/azrouter.txt"
+output_file_path2 = "//YOUR-HA-IP_ADDRESS/config/www/azrouter_bojler_nahrivani.txt"
+```
+<br>
+One more thing to change:<br>
+
+```
+ser = Service(r"C:\geckodriver.exe")
+```
+
+<br>
+You can choose whatever path you want, it will just create .txt file there (geckodriver.exe doesn't have to be there)<br>
+
+Do the same for the "azrouter_bojler.pyw" file.<br>
+
+### Now we need add these values to HA<br>
+open configuration.yaml and add these:<br>
+
+```
+sensor:
+
+  - platform: file
+    name: WHATEVER NAME YOU WANT
+    file_path: /config/www/azrouter.txt
+    unit_of_measurement: "W"
+    scan_interval: 5
+
+  - platform: file
+    name: WHATEVER NAME YOU WANT
+    file_path: /config/www/azrouter_bojler.txt
+    unit_of_measurement: "° C"
+    scan_interval: 120
+
+  - platform: WHATEVER NAME YOU WANT
+    name: Bojler nahrivani
+    file_path: /config/www/azrouter_bojler_nahrivani.txt
+    unit_of_measurement: "W"
+    scan_interval: 5
+    
+```
+
+The boiler temperature reading and power that is going to the boiler is now ready to use in HA.<br>
+But if you want to measure consumption/production from/to the grid you also need to create template sensors and helpers. Here is the idea of the code for template sensors you can use:
+
+```
+template:
+
+  - sensor:
+      - name: "Consumption times minus 1"
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+        unique_id: "sensor.consumption_times_minus_one"
+        state: >
+          {% set power = (states('sensor.consumption') | float)*-1 %}
+          {{ 0 if power < 0 else power }}
+
+  - sensor:
+      - name: "Export electricity"
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+        unique_id: "senzor.export_electricity"
+        state: >
+          {% set power = (states('sensor.consumption') | float)%}
+          {{ 0 if power < 0 else power }}
+```
+
+AZ Router returns both plus and minus values. That's why we need to use times -1 in the first sensor and values only higher than 0. This is the consumption from the grid.<br>
+
+The second sensor gives us value of the power export.<br>
+
+If you want to use these sensors in the Energy card or elsewhere to measure Energy in Wh, kWh you need to create helper Riemann sum integral (https://www.home-assistant.io/integrations/integration/) Setup is pretty straightforward, so I won't go into the detail.<br>
+
+
+
+
 
 
