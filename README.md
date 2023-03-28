@@ -34,7 +34,7 @@ azrouter.txt<br>
 azrouter_bojler_nahrivani.txt<br>
 azrouter_bojler.txt<br>
 <br>
-Open the "combined azrouter.pyw" in notepad or IDE of your choice.
+Download and open the .pyw files from this repository. Open the "combined azrouter.pyw" in notepad or IDE of your choice.
 <br>
 Here you need to change these:<br>
 ```
