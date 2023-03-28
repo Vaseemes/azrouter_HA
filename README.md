@@ -78,8 +78,8 @@ sensor:
     unit_of_measurement: "° C"
     scan_interval: 120
 
-  - platform: WHATEVER NAME YOU WANT
-    name: Bojler nahrivani
+  - platform: file
+    name: WHATEVER NAME YOU WANT
     file_path: /config/www/azrouter_bojler_nahrivani.txt
     unit_of_measurement: "W"
     scan_interval: 5
