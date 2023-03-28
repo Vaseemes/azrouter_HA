@@ -63,7 +63,7 @@ You can choose whatever path you want, it will just create .txt file there (geck
 Do the same for the "azrouter_bojler.pyw" file.<br>
 
 ### Now we need add to these values to HA<br>
-open configuration.yaml and add these:<br>
+Open configuration.yaml and add these:<br>
 
 ```
 sensor:
@@ -88,7 +88,7 @@ sensor:
     
 ```
 
-The boiler temperature reading and power that is going to the boiler is now ready to use in HA.<br>
+The boiler temperature reading and power that is going to the boiler are now ready to use in HA.<br>
 But if you want to measure consumption/production from/to the grid you also need to create template sensors and helpers. Here is the idea of the code for template sensors you can use:
 
 ```
