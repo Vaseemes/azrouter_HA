@@ -1,3 +1,5 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W1JVAKW)
+<br>
 # AZrouter_HA<br>
 Two very basic Python scripts that are reading values from AZrouter device and are adding them to HomeAssistant.<br>
 <br>
