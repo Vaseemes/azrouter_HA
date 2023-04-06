@@ -6,9 +6,8 @@ Two very basic Python scripts that are reading values from AZrouter device and a
 **!!! THESE SCRIPTS ARE NOT RUNNING IN THE HOMEASSISTANT. YOU CAN START THEM UP ON SEPARATE WINDOWS MACHINE/SERVER AND LEAVE THEM RUNNING !!!**<br>
 
 ## **Requirements**<br>
-Mozilla Firefox installed<br>
 Python installed<br>
-Python Selenium package installed<br>
+Python Playwright package installed<br>
 Samba Share addon in Home Assistant running<br>
 
 ## **Goal/Scope**<br>
@@ -19,11 +18,10 @@ Reading values from AZrouter SMART<br>
 
 ## Installation
 
-First you need to install Mozilla Firefox browser. You can use other browsers as well, but then you have to change the properties for Selenium.<br>
 Install latest Python<br>
 After installing Python, open command line and write:
 ```
-py -m pip install selenium
+py -m pip install playwright
 ```
 <br>
 You can then close the command line.<br>
@@ -51,14 +49,6 @@ output_file_path = "//YOUR-HA-IP_ADDRESS/config/www/azrouter.txt"
 output_file_path2 = "//YOUR-HA-IP_ADDRESS/config/www/azrouter_bojler_nahrivani.txt"
 ```
 <br>
-One more thing to change:<br>
-
-```
-ser = Service(r"C:\geckodriver.exe")
-```
-
-<br>
-You can choose whatever path you want, it will just create .txt file there (geckodriver.exe doesn't have to be there)<br>
 
 Do the same for the "azrouter_bojler.pyw" file.<br>
 
