@@ -67,7 +67,7 @@ sensor:
   - platform: file
     name: WHATEVER NAME YOU WANT
     file_path: /config/www/azrouter_bojler.txt
-    unit_of_measurement: "° C"
+    unit_of_measurement: "°C"
     scan_interval: 120
 
   - platform: file
