@@ -1,7 +1,8 @@
 - hosts: localhost
   vars:
     vars:
-      uucloud: "{{ lookup('file', (ansible_config_file | dirname ) + '/playbooks/config/standard.json') }}"
+      uucloud: "{{ lookup('file', ('ansible/playbooks/config/standard.json') }}"
+      output_file_path: "/ansible/prdel.json"
 
   tasks:
     - set_fact:
@@ -61,58 +62,41 @@
             repo: "minio/mc"
 #            currentVersion: "{{ uucloud.services.minio.versions.mcImage }}"
 
-    ### Task 1: Task to check API versions for applications from GitHub releases
+
     - name: Check versions
       uri:
         url: "{{ item.url }}"
         method: GET
         return_content: yes
       register: latest_releases
-      loop_control:
-        label: "Checking for new version of the {{ item.name }} application"
-      with_items:
-        - "{{ apps }}"
+      loop: "{{ apps }}"
 
-    - name: Show output
-      debug:
-        msg: "App {{ item.item.name }} - new version is: {{ item.json.tag_name }}"
-      loop_control:
-        label: "app: {{ item.item.name }}"
-      with_items:
-        - "{{ latest_releases.results }}"
-
-    ### Task 2: Check the latest versions from Docker Hub
     - name: Check latest Docker Hub versions
       uri:
         url: "https://registry.hub.docker.com/v2/repositories/{{ item.repo }}/tags?page_size=4"
         method: GET
         return_content: yes
       register: docker_tags
-      loop_control:
-        label: "Checking for new version of the Docker image {{ item.name }}"
-      with_items:
-        - "{{ docker_images }}"
+      loop: "{{ docker_images }}"
 
-    ### Task 3: Show the result for Docker images with a check for "latest"
-    - name: Determine and show new Docker image versions
+    - name: Set Docker image suitable tags
+      set_fact:
+        suitable_tags: "{{ suitable_tags | default({}) | combine({ item.item.name: (item.json.results | selectattr('name', 'search', '^(?!latest$)(?!sha256-)(?!.*debian.*)(?!.*java.*)(?!.*rc.*).*$') | map(attribute='name') | list | first | default('No suitable tag found')) }) }}"
+      loop: "{{ docker_tags.results }}"
+
+    - name: Combine all information into a list
+      set_fact:
+        version_info: "{{ version_info | default([]) + [{'name': item.item.name, 'new_version': item.json.tag_name, 'url': item.item.url}] }}"
+      loop: "{{ latest_releases.results }}"
+
+    - name: Add docker images to version info
+      set_fact:
+        version_info: "{{ version_info | default([]) + [{'name': item.item.name, 'new_version': suitable_tags[item.item.name], 'url': 'https://registry.hub.docker.com/v2/repositories/' + item.item.repo + '/tags'}] }}"
+      loop: "{{ docker_tags.results }}"
+
+    - name: Write version info to a file
       vars:
-        suitable_tags: { }
-      block:
-        - name: Determine suitable tags excluding "latest", "sha256-", "debian", and "rc"
-          set_fact:
-            suitable_tags: "{{ suitable_tags | combine({ item.item.name: (item.json.results | selectattr('name', 'search', '^(?!latest$)(?!sha256-)(?!.*debian.*)(?!.*rc.*).*$') | map(attribute='name') | list | first | default('No suitable tag found')) }) }}"
-          loop_control:
-            label: "Docker image: {{ item.item.name }}"
-          with_items:
-            - "{{ docker_tags.results }}"
-
-
-        - name: Print suitable version tag
-          debug:
-            msg: "Docker image {{ item.item.name }} - new version is: {{ suitable_tags[item.item.name] }}"
-          loop_control:
-            label: "Docker image: {{ item.item.name }}"
-          with_items:
-            - "{{ docker_tags.results }}"
-
-
+        output_file_path: ./prdel.json
+      copy:
+        content: "{{ version_info | to_nice_json }}"
+        dest: "{{ output_file_path }}"
